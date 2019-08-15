@@ -1,0 +1,24 @@
+sa_password = Password
+docker pull microsoft/mssql-server-windows-developer:latest
+
+docker run -d -p 1433:1433 -e MSSQL_PID="Developer" -e SA_PASSWORD="Password" -e ACCEPT_EULA=Y microsoft/mssql-server-windows-developer:latest
+
+docker exec -it [containername] sqlcmd
+	ALTER LOGIN sa Enable
+	GO
+	ALTER LOGIN sa PASSWORD = 'Password'
+	GO
+	sp_configure 'contained database authentication', 1;  
+	GO  
+	RECONFIGURE ;  
+	GO 
+	CREATE DATABASE DatabaseName
+	GO
+	CREATE USER [Username] WITH PASSWORD='Password';
+	GO 
+	USE [master]  
+	GO  
+	ALTER DATABASE [DatabaseName] SET CONTAINMENT = PARTIAL  
+	GO 
+
+
